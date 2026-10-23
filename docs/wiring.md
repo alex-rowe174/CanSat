@@ -1,8 +1,7 @@
 # Wiring and Pin Layout
 
-Microcontroller: **Raspberry Pi Pico 2 H** (RP2350, 3.3 V logic)
+Microcontroller: **Raspberry Pi Pico 2 H** 
 
-> Keep this file up to date. If a pin changes in the code, change it here in the same commit.
 
 ## Bus overview
 
@@ -16,7 +15,7 @@ Microcontroller: **Raspberry Pi Pico 2 H** (RP2350, 3.3 V logic)
 
 ## Pico 2 pin assignment
 
-USB connector at the top. Pins 1–20 down the left side, pins 40–21 down the right side.
+USB connector at the top.
 
 | Pin | Name | Connected to | | Pin | Name | Connected to |
 |---:|---|---|---|---:|---|---|
@@ -57,10 +56,9 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | CS | GP13 (pin 17) |
 | RST | GP14 (pin 19) |
 | G0 | GP15 (pin 20) |
-| EN | not connected (pulled up on board) |
-| ANT | ~16.4 cm quarter-wave wire antenna |
+| EN | not connected |
+| ANT | the antenna |
 
-> Never transmit without an antenna connected.
 
 ### Adafruit BMP390 pressure/temperature sensor — SPI1 (shared with radio)
 
@@ -73,7 +71,7 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | SDO | GP12 (pin 16) |
 | CS | GP9 (pin 12) |
 
-### microSD card breakout — SPI0 (own bus)
+### microSD card breakout — SPI0
 
 | Module pin | Pico pin |
 |---|---|
@@ -84,7 +82,6 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | DO / D0 (MISO) | GP16 (pin 21) |
 | CS / D3 | GP17 (pin 22) |
 
-> Pin labels differ between SD breakouts. Match by function: DI = MOSI, DO = MISO.
 
 ### Adafruit PA1010D GPS — UART1
 
@@ -97,7 +94,6 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | 1PPS | GP6 (pin 9) — optional |
 | SDA / SCL | not connected (using UART) |
 
-> TX and RX cross over: GPS TX → Pico RX, GPS RX → Pico TX. Default output is 9600 baud, 1 Hz.
 
 ### Adafruit TMP117 temperature sensor — I2C1
 
@@ -113,11 +109,9 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 
 | Battery lead | Connection |
 |---|---|
-| + (red) | Master switch → Schottky diode → VSYS (pin 39) |
+| + (red) | VSYS (pin 39) |
 | − (black) | GND (pin 38) |
 
-> Check polarity before connecting — a reversed LiPo can destroy the Pico.
-> The Pico cannot charge the LiPo: use a separate LiPo charger.
 
 ## Power notes
 
