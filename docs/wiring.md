@@ -1,17 +1,13 @@
 # Wiring and Pin Layout
 
-Microcontroller: **Raspberry Pi Pico 2 H** 
-
-
 ## Bus overview
 
 | Bus | Pico pins | Devices |
 |---|---|---|
 | SPI1 | GP10 (SCK), GP11 (MOSI), GP12 (MISO) | RFM96W radio, BMP390 |
-| SPI0 | GP18 (SCK), GP19 (MOSI), GP16 (MISO) | microSD card (on its own bus) |
+| SPI0 | GP18 (SCK), GP19 (MOSI), GP16 (MISO) | microSD card (gets its own bus) |
 | UART1 | GP4 (TX), GP5 (RX) | PA1010D GPS |
-| I2C1 | GP26 (SDA), GP27 (SCL) | TMP117 (only device on the bus) |
-| ADC3 (internal) | GP29 | Battery voltage (reads VSYS ÷ 3) |
+| I2C1 | GP26 (SDA), GP27 (SCL) | TMP117 |
 
 ## Pico 2 pin assignment
 
@@ -20,7 +16,7 @@ USB connector at the top.
 | Pin | Name | Connected to | | Pin | Name | Connected to |
 |---:|---|---|---|---:|---|---|
 | 1 | GP0 | free | | 40 | VBUS | USB 5 V only, leave unconnected |
-| 2 | GP1 | free | | 39 | VSYS | Battery + (via master switch and Schottky diode) |
+| 2 | GP1 | free | | 39 | VSYS | Battery + (via master switch and diode) |
 | 3 | GND | PA1010D GND | | 38 | GND | Battery − / common ground |
 | 4 | GP2 | free | | 37 | 3V3_EN | leave unconnected |
 | 5 | GP3 | free | | 36 | 3V3(OUT) | VIN of all modules |
@@ -44,8 +40,6 @@ USB connector at the top.
 
 ### Adafruit RFM96W LoRa radio (433 MHz) — SPI1
 
-The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and library.
-
 | Module pin | Pico pin |
 |---|---|
 | VIN | 3V3 (pin 36) |
@@ -60,7 +54,7 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | ANT | the antenna |
 
 
-### Adafruit BMP390 pressure/temperature sensor — SPI1 (shared with radio)
+### Adafruit BMP390 pressure/temperature sensor — SPI1
 
 | Module pin | Pico pin |
 |---|---|
@@ -78,9 +72,9 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | 3V / VCC | 3V3 (pin 36) |
 | GND | GND (pin 23) |
 | CLK | GP18 (pin 24) |
-| DI / CMD (MOSI) | GP19 (pin 25) |
-| DO / D0 (MISO) | GP16 (pin 21) |
-| CS / D3 | GP17 (pin 22) |
+| DI (MOSI) | GP19 (pin 25) |
+| DO (MISO) | GP16 (pin 21) |
+| CS | GP17 (pin 22) |
 
 
 ### Adafruit PA1010D GPS — UART1
@@ -113,11 +107,11 @@ The 433 MHz version is the RFM96W; the RFM95W is 868/915 MHz. Same pinout and li
 | − (black) | GND (pin 38) |
 
 
-## Power notes
+## Power
 
 - All modules are powered from the Pico's 3V3(OUT) rail (pin 36). Keep total 3V3 load under ~300 mA.
 - The radio transmitting and SD card writes cause current peaks. If the Pico resets during transmission, move the RFM96W VIN to VSYS (its board accepts 3.3–6 V) and/or add a capacitor (e.g. 100 µF) near the radio.
-- Battery voltage can be read on GP29 (ADC3), which measures VSYS ÷ 3.
+- Battery voltage can be read on GP29 (ADC3).
 
 ## Free pins
 
